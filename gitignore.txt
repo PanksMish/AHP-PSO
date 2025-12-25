@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data
+data/coco/train2017/
+data/coco/val2017/
+data/coco/*.zip
+data/processed/
+*.jpg
+*.png
+*.jpeg
+
+# Results
+results/
+logs/
+*.log
+
+# Models
+models/*.pth
+models/*.pt
+*.pkl
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Documentation
+docs/_build/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Profiling
+*.prof
+*.stats
+
+# Temporary
+*.tmp
+*.bak
+*.swp
