@@ -1,0 +1,39 @@
+# AHP-PSO Object Detection Docker Image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    wget \
+    libopencv-dev \
+    python3-opencv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY . .
+
+# Install package
+RUN pip install -e .
+
+# Create necessary directories
+RUN mkdir -p data/coco results logs
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV CUDA_VISIBLE_DEVICES=""
+
+# Expose port for Tensorboard (optional)
+EXPOSE 6006
+
+# Default command
+CMD ["python", "main.py", "--help"]
