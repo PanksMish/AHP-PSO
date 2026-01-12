@@ -1,0 +1,292 @@
+================================================================================
+AHP-PSO OBJECT DETECTION - DATASET DOWNLOAD LINKS
+================================================================================
+
+PAPER REFERENCE: "AHP-PSO: Adaptive Hybrid Particle Swarm Optimization 
+                  for Real-Time Cross-Domain Object Detection"
+AUTHORS: Pankaj Mishra, V Venkataramanan, Anand Nayyar
+
+================================================================================
+PRIMARY DATASET: MS COCO 2017 (Official)
+================================================================================
+
+Official Website:
+https://cocodataset.org/
+
+Dataset Paper:
+https://arxiv.org/abs/1405.0312
+
+--------------------------------------------------------------------------------
+REQUIRED FILES (Total: ~1.2 GB)
+--------------------------------------------------------------------------------
+
+1. VALIDATION IMAGES (1 GB):
+   http://images.cocodataset.org/zips/val2017.zip
+   
+   Description: 5,000 validation images
+   Used in paper: Section 3.1.1, Table 1
+   
+   wget command:
+   wget http://images.cocodataset.org/zips/val2017.zip
+
+2. ANNOTATIONS (241 MB):
+   http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+   
+   Description: Training and validation annotations
+   Contains: instances_val2017.json (our primary annotation file)
+   
+   wget command:
+   wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+
+--------------------------------------------------------------------------------
+OPTIONAL FILES (For extended experiments)
+--------------------------------------------------------------------------------
+
+3. TRAINING IMAGES (18 GB - Optional):
+   http://images.cocodataset.org/zips/train2017.zip
+   
+   Note: Only needed for training from scratch
+   Paper uses validation set only
+
+4. TEST IMAGES (6 GB - Optional):
+   http://images.cocodataset.org/zips/test2017.zip
+
+5. TEST ANNOTATIONS (1 MB - Optional):
+   http://images.cocodataset.org/annotations/image_info_test2017.zip
+
+================================================================================
+DOWNLOAD METHODS
+================================================================================
+
+METHOD 1: Automated Script (Recommended)
+----------------------------------------
+python scripts/download_coco.py --val --annotations --output data/coco
+
+METHOD 2: Manual Download with wget
+-----------------------------------
+cd data/coco
+wget http://images.cocodataset.org/zips/val2017.zip
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+unzip val2017.zip
+unzip annotations_trainval2017.zip
+
+METHOD 3: Manual Download via Browser
+-------------------------------------
+Visit: https://cocodataset.org/#download
+Download: 2017 Val images and 2017 Train/Val annotations
+
+METHOD 4: Use Synthetic Data (No Download)
+------------------------------------------
+python scripts/generate_synthetic_dataset.py --domain all --num_train 100
+
+================================================================================
+DOMAIN-SPECIFIC DATASETS (Created from COCO)
+================================================================================
+
+After downloading COCO, generate domain-specific subsets:
+
+AERIAL SURVEILLANCE (1,500 images):
+-----------------------------------
+python scripts/prepare_domains.py --domain aerial --num_images 1500
+
+Categories: person, car, truck, bus, motorcycle, bicycle
+Paper Reference: Section 3.1.5, Table 2
+
+UNDERWATER DETECTION (1,000 images):
+------------------------------------
+python scripts/prepare_domains.py --domain underwater --num_images 1000
+
+Categories: person, boat, surfboard, bird, cat, dog
+Preprocessing: Blue-green tint, blur, contrast reduction
+Paper Reference: Section 3.1.5, Table 2
+
+ROAD MONITORING (1,000 images):
+-------------------------------
+python scripts/prepare_domains.py --domain road --num_images 1000
+
+Categories: car, truck, bus, motorcycle, bicycle, traffic light, stop sign
+Special: Includes synthetic potholes
+Paper Reference: Section 3.1.5, Table 2
+
+ALL DOMAINS AT ONCE:
+--------------------
+python scripts/prepare_domains.py --domain all --coco_root data/coco
+
+================================================================================
+ADDITIONAL REFERENCE DATASETS (Optional)
+================================================================================
+
+These are NOT required but can be used for comparison or augmentation:
+
+UNDERWATER DATASETS:
+-------------------
+1. UIEB Dataset
+   https://li-chongyi.github.io/proj_benchmark.html
+   890 real-world underwater images
+
+2. RUIE Benchmark
+   https://github.com/dlut-dimt/Realworld-Underwater-Image-Enhancement-RUIE-Benchmark
+   4,000+ underwater images
+
+ROAD DAMAGE DATASETS:
+--------------------
+1. Road Damage Dataset 2022
+   https://github.com/sekilab/RoadDamageDetector/releases
+   21,000+ road images with damage annotations
+
+2. CrackForest Dataset
+   https://github.com/cuilimeng/CrackForest-dataset
+   118 concrete crack images
+
+3. Gap Dataset
+   https://github.com/fyangneil/pavement-crack-detection
+   600+ pavement crack images
+
+AERIAL DATASETS:
+---------------
+1. VisDrone Dataset
+   https://github.com/VisDrone/VisDrone-Dataset
+   10,000+ drone images
+
+2. UAVDT Benchmark
+   https://sites.google.com/view/grli-uavdt
+   80,000+ frames from UAV videos
+
+================================================================================
+DATASET STATISTICS (From Paper)
+================================================================================
+
+MS COCO 2017 (Source):
+- Training Images: 118,287
+- Validation Images: 5,000
+- Object Categories: 80
+- Total Annotations: 1,500,000+
+- Size Distribution:
+  * Small objects: 41.4%
+  * Medium objects: 34.3%
+  * Large objects: 24.3%
+
+Domain-Specific (Paper Configuration):
+- Aerial: 1,500 images, ~8,000 annotations
+- Underwater: 1,000 images, ~5,000 annotations
+- Road: 1,000 images, ~6,000 annotations
+
+================================================================================
+VERIFICATION
+================================================================================
+
+After downloading and preparing datasets, verify with:
+
+python scripts/verify_dataset.py --root_dir data/domain_specific --report --visualize
+
+Expected output:
+✓ Directory structure correct
+✓ All images present
+✓ Annotations valid
+✓ Categories match domain
+
+================================================================================
+DISK SPACE REQUIREMENTS
+================================================================================
+
+Minimal Setup (Validation only):
+- val2017.zip: 1.0 GB
+- annotations_trainval2017.zip: 241 MB
+- Extracted: ~1.5 GB
+- Domain subsets: ~500 MB
+- TOTAL: ~2 GB
+
+Full Setup (With training):
+- All COCO 2017: ~25 GB
+- Domain subsets: ~500 MB
+- TOTAL: ~25.5 GB
+
+Synthetic Only:
+- No download needed
+- Generated data: ~50-100 MB
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+If download is slow:
+- Try COCO mirrors or alternative CDNs
+- Download during off-peak hours
+- Use download managers (aria2, wget with resume)
+
+If out of space:
+- Use validation set only (skip training set)
+- Generate synthetic dataset instead
+- Mount external drive for data storage
+
+If pycocotools missing:
+pip install pycocotools
+
+If preparation fails:
+- Ensure COCO dataset is fully extracted
+- Check Python version >= 3.8
+- Install all requirements: pip install -r requirements.txt
+
+================================================================================
+CITATIONS
+================================================================================
+
+MS COCO Dataset:
+@inproceedings{lin2014microsoft,
+  title={Microsoft coco: Common objects in context},
+  author={Lin, Tsung-Yi and Maire, Michael and others},
+  booktitle={ECCV},
+  year={2014}
+}
+
+Our Paper:
+@article{mishra2024ahppso,
+  title={AHP-PSO: Adaptive Hybrid Particle Swarm Optimization 
+         for Real-Time Cross-Domain Object Detection},
+  author={Mishra, Pankaj and Venkataramanan, V and Nayyar, Anand},
+  year={2024}
+}
+
+================================================================================
+SUPPORT
+================================================================================
+
+Dataset Issues:
+- COCO Official: https://cocodataset.org/#download
+- GitHub Issues: https://github.com/yourusername/ahp-pso-detection/issues
+
+Contact:
+- Email: pankaj.mishra@somaiya.edu
+- Project: https://github.com/yourusername/ahp-pso-detection
+
+================================================================================
+QUICK START COMMANDS
+================================================================================
+
+Complete setup in one go:
+
+# 1. Download COCO (if not using synthetic)
+python scripts/download_coco.py --val --annotations --output data/coco
+
+# 2. Prepare all domain datasets
+python scripts/prepare_domains.py --domain all --coco_root data/coco
+
+# 3. Verify datasets
+python scripts/verify_dataset.py --root_dir data/domain_specific --report
+
+# 4. Run experiment
+python main.py --algorithm ahp_pso --domain aerial --visualize
+
+OR use synthetic data for quick testing:
+
+# Generate synthetic dataset
+python scripts/generate_synthetic_dataset.py --domain all --num_train 100
+
+# Run with synthetic data
+python main.py --dataset_path data/synthetic/aerial --domain aerial
+
+================================================================================
+Last Updated: December 2024
+Dataset Version: MS COCO 2017
+Paper Status: Published
+================================================================================
